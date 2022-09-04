@@ -26,6 +26,7 @@ def access(request):
 
 
 def stats(request):
+    """Show statistics about registered users."""
     objects = UserInfo.objects.all()
     context = dict()
     context["age_stats"] = calc_stats([obj.age for obj in objects])
