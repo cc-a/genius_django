@@ -1,7 +1,9 @@
 from django.shortcuts import render
 
+from stats import calc_stats
+
 from .forms import UserInfoForm
-from .models import AccessRecord
+from .models import AccessRecord, UserInfo
 
 
 def info(request):
@@ -21,3 +23,11 @@ def access(request):
     """Page that logs visits."""
     AccessRecord.objects.create()
     return render(request, "access.html")
+
+
+def stats(request):
+    objects = UserInfo.objects.all()
+    context = dict()
+    context["age_stats"] = calc_stats([obj.age for obj in objects])
+    context["size_stats"] = calc_stats([obj.size for obj in objects])
+    return render(request, "stats.html", context=context)
