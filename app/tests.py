@@ -24,3 +24,9 @@ class ViewTests(TestCase):
         response = self.client.get("/access")
         self.assertEqual(response.status_code, 200)
         AccessRecord.objects.get()
+
+    def test_stats(self):
+        UserInfo.objects.create(age=1, size=1)
+        response = self.client.get("/stats")
+        self.assertEqual((1, 1, 1), response.context["age_stats"])
+        self.assertEqual((1, 1, 1), response.context["size_stats"])
